@@ -5,7 +5,7 @@ using std::string;
 
 int main(int argc, char **argv)
 {
-	MGFramework* ait = 0;
+	AITribe* ait = 0;
 
 	bool loggingOn = false;
 	bool scriptFile = false;
@@ -50,7 +50,10 @@ int main(int argc, char **argv)
 
 	ait = new AITribe();
 	ait->setWindowProperties(MGWindow_RES_1600_900, 32, false, 
-							 string("AI Tribe 0.0.0.1 based on MGF ") + string(ait->getMGFrameworkVersion()));
+							 string("AI Tribe ") + 
+							 string(ait->getAITribeVersion())+ 
+							 string(" based on MGF ") + 
+							 string(ait->getMGFrameworkVersion()));
 
 	if(loggingOn) ait->enableLogging();
 

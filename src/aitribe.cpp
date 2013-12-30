@@ -23,10 +23,31 @@ bool AITribe::init(int w, int h, int tw, int th)
 
 		// All graphics should be loaded here.
 		m_Floor = loadBMPImage("tileset.bmp");
-		m_MovingObject = loadBMPImage("movingobject.bmp");
+
+		m_MO_00 = loadBMPImage("movingobject_00.bmp");
+		m_MO_01 = loadBMPImage("movingobject_01.bmp");
+		m_MO_02 = loadBMPImage("movingobject_02.bmp");
+		m_MO_03 = loadBMPImage("movingobject_03.bmp");
+		m_MO_04 = loadBMPImage("movingobject_04.bmp");
+		m_MO_05 = loadBMPImage("movingobject_05.bmp");
+		m_MO_06 = loadBMPImage("movingobject_06.bmp");
+		m_MO_07 = loadBMPImage("movingobject_07.bmp");
+		m_MO_08 = loadBMPImage("movingobject_08.bmp");
+
 		m_StationaryObject = loadBMPImage("stationaryobject.bmp");
 		m_Mark = loadBMPImage("mark.bmp");
-		SDL_SetColorKey(m_MovingObject, SDL_SRCCOLORKEY, 0);
+
+		SDL_SetColorKey(m_MO_00, SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MO_01, SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MO_02, SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MO_03, SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MO_04, SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MO_05, SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MO_06, SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MO_07, SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MO_08, SDL_SRCCOLORKEY, 0);
+
+
 		SDL_SetColorKey(m_StationaryObject, SDL_SRCCOLORKEY, 0);
 		SDL_SetColorKey(m_Mark, SDL_SRCCOLORKEY, 0);
 
@@ -47,10 +68,16 @@ bool AITribe::init(int w, int h, int tw, int th)
 		runConsoleCommand("map logging off", this, NULL); // Turn on logging for the MGMap class
 		runConsoleCommand("minimap on", this, NULL);
 		runConsoleCommand("add so 2000", this, NULL);
+
+		runConsoleCommand("add mo 20 -owner 0", this, NULL);
 		runConsoleCommand("add mo 20 -owner 1", this, NULL);
 		runConsoleCommand("add mo 20 -owner 2", this, NULL);
 		runConsoleCommand("add mo 20 -owner 3", this, NULL);
 		runConsoleCommand("add mo 20 -owner 4", this, NULL);
+		runConsoleCommand("add mo 20 -owner 5", this, NULL);
+		runConsoleCommand("add mo 20 -owner 6", this, NULL);
+		runConsoleCommand("add mo 20 -owner 7", this, NULL);
+		runConsoleCommand("add mo 20 -owner 8", this, NULL);
 
 		return true;
 	}
@@ -82,10 +109,12 @@ void AITribe::draw()
 				{
 					drawSprite(m_Floor, getSurface(), 0, 0, x * m_Map.getTileWidth() + m_Map.getScrollX(), y * m_Map.getTileHeight() + m_Map.getScrollY(), m_Map.getTileWidth(), m_Map.getTileHeight());
 				}
+				/*
 				else if(m_Map.getTileProperty(x, y) & MGMAP_TP_PROPERTY_2)
 				{
 					drawSprite(m_Floor, getSurface(), 32, 64, x * m_Map.getTileWidth() + m_Map.getScrollX(), y * m_Map.getTileHeight() + m_Map.getScrollY(), m_Map.getTileWidth(), m_Map.getTileHeight());
 				}
+				*/
 			}
 		}
 	}
@@ -101,7 +130,70 @@ void AITribe::draw()
 			// Only draw visible moving objects...
 			if(detectCollisionRectangle(oX, oY, oX+m_Map.getTileWidth(), oY+m_Map.getTileHeight(), 0, 0, m_Window.getWidth(), m_Window.getHeight()))
 			{
-				drawSprite(m_MovingObject, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
+				switch(m_MO[i].getOwner())
+				{
+					case 0:
+					{
+						drawSprite(m_MO_00, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
+						break;
+					}
+
+					case 1:
+					{
+						drawSprite(m_MO_01, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
+						break;
+					}
+
+					case 2:
+					{
+						drawSprite(m_MO_02, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
+						break;
+					}
+
+					case 3:
+					{
+						drawSprite(m_MO_03, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
+						break;
+					}
+
+					case 4:
+					{
+						drawSprite(m_MO_04, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
+						break;
+					}
+
+					case 5:
+					{
+						drawSprite(m_MO_05, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
+						break;
+					}
+
+					case 6:
+					{
+						drawSprite(m_MO_06, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
+						break;
+					}
+
+					case 7:
+					{
+						drawSprite(m_MO_07, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
+						break;
+					}
+
+					case 8:
+					{
+						drawSprite(m_MO_08, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
+						break;
+					}
+
+					default:
+					{
+						// ERROR?
+						break;
+					}
+				}
+
+				//drawSprite(m_MovingObject, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
 				if(m_MO[i].isMarked())
 				{
 					drawSprite(m_Mark, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
