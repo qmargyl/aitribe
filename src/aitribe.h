@@ -3,7 +3,7 @@
 
 #include "mgframework/mgframework.h"
 
-#define AITRIBEVERSION "0.0.0.3"
+#define AITRIBEVERSION "0.0.0.4"
 
 class AITribe : public MGFramework
 {
@@ -16,15 +16,7 @@ class AITribe : public MGFramework
 		// Graphics (which is not part of the framework) should be added here.
 		SDL_Surface *m_Floor;
 
-		SDL_Surface *m_MO_00;
-		SDL_Surface *m_MO_01;
-		SDL_Surface *m_MO_02;
-		SDL_Surface *m_MO_03;
-		SDL_Surface *m_MO_04;
-		SDL_Surface *m_MO_05;
-		SDL_Surface *m_MO_06;
-		SDL_Surface *m_MO_07;
-		SDL_Surface *m_MO_08;
+		SDL_Surface *m_MOSprite[9];
 
 		SDL_Surface *m_StationaryObject;
 		SDL_Surface *m_Mark;

@@ -24,33 +24,31 @@ bool AITribe::init(int w, int h, int tw, int th)
 		// All graphics should be loaded here.
 		m_Floor = loadBMPImage("tileset.bmp");
 
-		m_MO_00 = loadBMPImage("movingobject_00.bmp");
-		m_MO_01 = loadBMPImage("movingobject_01.bmp");
-		m_MO_02 = loadBMPImage("movingobject_02.bmp");
-		m_MO_03 = loadBMPImage("movingobject_03.bmp");
-		m_MO_04 = loadBMPImage("movingobject_04.bmp");
-		m_MO_05 = loadBMPImage("movingobject_05.bmp");
-		m_MO_06 = loadBMPImage("movingobject_06.bmp");
-		m_MO_07 = loadBMPImage("movingobject_07.bmp");
-		m_MO_08 = loadBMPImage("movingobject_08.bmp");
+		m_MOSprite[0] = loadBMPImage("movingobject_00.bmp");
+		m_MOSprite[1] = loadBMPImage("movingobject_01.bmp");
+		m_MOSprite[2] = loadBMPImage("movingobject_02.bmp");
+		m_MOSprite[3] = loadBMPImage("movingobject_03.bmp");
+		m_MOSprite[4] = loadBMPImage("movingobject_04.bmp");
+		m_MOSprite[5] = loadBMPImage("movingobject_05.bmp");
+		m_MOSprite[6] = loadBMPImage("movingobject_06.bmp");
+		m_MOSprite[7] = loadBMPImage("movingobject_07.bmp");
+		m_MOSprite[8] = loadBMPImage("movingobject_08.bmp");
 
 		m_StationaryObject = loadBMPImage("stationaryobject.bmp");
 		m_Mark = loadBMPImage("mark.bmp");
 
-		SDL_SetColorKey(m_MO_00, SDL_SRCCOLORKEY, 0);
-		SDL_SetColorKey(m_MO_01, SDL_SRCCOLORKEY, 0);
-		SDL_SetColorKey(m_MO_02, SDL_SRCCOLORKEY, 0);
-		SDL_SetColorKey(m_MO_03, SDL_SRCCOLORKEY, 0);
-		SDL_SetColorKey(m_MO_04, SDL_SRCCOLORKEY, 0);
-		SDL_SetColorKey(m_MO_05, SDL_SRCCOLORKEY, 0);
-		SDL_SetColorKey(m_MO_06, SDL_SRCCOLORKEY, 0);
-		SDL_SetColorKey(m_MO_07, SDL_SRCCOLORKEY, 0);
-		SDL_SetColorKey(m_MO_08, SDL_SRCCOLORKEY, 0);
-
+		SDL_SetColorKey(m_MOSprite[0], SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MOSprite[1], SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MOSprite[2], SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MOSprite[3], SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MOSprite[4], SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MOSprite[5], SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MOSprite[6], SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MOSprite[7], SDL_SRCCOLORKEY, 0);
+		SDL_SetColorKey(m_MOSprite[8], SDL_SRCCOLORKEY, 0);
 
 		SDL_SetColorKey(m_StationaryObject, SDL_SRCCOLORKEY, 0);
 		SDL_SetColorKey(m_Mark, SDL_SRCCOLORKEY, 0);
-
 
 		// Objcts such as the map are initialized here.
 		m_Map.init(w, h, tw, th, m_Window.getWidth(), m_Window.getHeight()); // width (in number of tiles), height, tile width (in pixels), tile height, resolution x and y.
@@ -128,70 +126,11 @@ void AITribe::draw()
 			// Only draw visible moving objects...
 			if(detectCollisionRectangle(oX, oY, oX+m_Map.getTileWidth(), oY+m_Map.getTileHeight(), 0, 0, m_Window.getWidth(), m_Window.getHeight()))
 			{
-				switch(m_MO[i].getOwner())
+				if(m_MO[i].getOwner() >= 0 && m_MO[i].getOwner() < 9)
 				{
-					case 0:
-					{
-						drawSprite(m_MO_00, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
-						break;
-					}
-
-					case 1:
-					{
-						drawSprite(m_MO_01, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
-						break;
-					}
-
-					case 2:
-					{
-						drawSprite(m_MO_02, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
-						break;
-					}
-
-					case 3:
-					{
-						drawSprite(m_MO_03, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
-						break;
-					}
-
-					case 4:
-					{
-						drawSprite(m_MO_04, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
-						break;
-					}
-
-					case 5:
-					{
-						drawSprite(m_MO_05, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
-						break;
-					}
-
-					case 6:
-					{
-						drawSprite(m_MO_06, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
-						break;
-					}
-
-					case 7:
-					{
-						drawSprite(m_MO_07, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
-						break;
-					}
-
-					case 8:
-					{
-						drawSprite(m_MO_08, getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
-						break;
-					}
-
-					default:
-					{
-						// ERROR?
-						break;
-					}
+					drawSprite(m_MOSprite[m_MO[i].getOwner()], getSurface(), 0, 0, oX, oY, m_Map.getTileWidth(), m_Map.getTileHeight());
+					nTilesDrawn++;
 				}
-
-				nTilesDrawn++;
 				if(isSelectiveTileRenderingActive())
 				{
 					m_Map.markForRendering(m_MO[i].getTileX(), m_MO[i].getTileY());
