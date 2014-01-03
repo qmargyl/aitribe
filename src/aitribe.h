@@ -3,7 +3,7 @@
 
 #include "mgframework/mgframework.h"
 
-#define AITRIBEVERSION "0.0.0.5"
+#define AITRIBEVERSION "0.0.0.6"
 
 class AITribe : public MGFramework
 {
