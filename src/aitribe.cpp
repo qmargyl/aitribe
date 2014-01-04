@@ -62,6 +62,8 @@ bool AITribe::init(int w, int h, int tw, int th)
 
 		// Setup application specific game logics..
 		activateSelectiveTileRendering();
+		setClientPlayer(MGF_PLAYER1);
+		activateOnlySelectOwnedMO();		// User can only select his own MO (with mouse click)
 
 		runConsoleCommand("setfps 60", this, NULL);			// Set initial FPS to 60 to avoid slow start
 		runConsoleCommand("logging off", this, NULL);		// Turn on logging for the MGFramework class
@@ -69,8 +71,7 @@ bool AITribe::init(int w, int h, int tw, int th)
 		runConsoleCommand("minimap on", this, NULL);
 		runConsoleCommand("add so 2000", this, NULL);
 
-		runConsoleCommand("add mo 20 -owner 0", this, NULL);
-		runConsoleCommand("add mo 20 -owner 1", this, NULL);
+		runConsoleCommand("add mo 20 -owner 1 -area_square 5 5 20 20", this, NULL);
 		runConsoleCommand("add mo 20 -owner 2", this, NULL);
 		runConsoleCommand("add mo 20 -owner 3", this, NULL);
 		runConsoleCommand("add mo 20 -owner 4", this, NULL);
