@@ -58,7 +58,7 @@ bool AITribe::init(int w, int h, int tw, int th)
 		m_Map.setTopEdge(8);
 		m_Map.setBottomEdge(64);
 		m_Map.setLeftEdge(8);
-		m_Map.setRightEdge(64);
+		m_Map.setRightEdge(256);
 
 		// Setup application specific game logics..
 		activateSelectiveTileRendering();
@@ -105,9 +105,9 @@ void AITribe::draw()
 			for ( int y=0; y < m_Map.getHeight(); y++)
 			{
 				// Only draw the tiles actually visible (+1 to draw partly visible tiles) in the window...
-				if(  ((x * m_Map.getTileWidth() + m_Map.getScrollX()) <= m_Window.getWidth() + m_Map.getTileWidth()) &&
+				if(  ((x * m_Map.getTileWidth() + m_Map.getScrollX()) <= m_Window.getWidth() + m_Map.getTileWidth() - m_Map.getRightEdge()) &&
 					 ((x * m_Map.getTileWidth() + m_Map.getScrollX()) >= 0 - m_Map.getTileWidth()) &&
-					 ((y * m_Map.getTileHeight() + m_Map.getScrollY()) <= m_Window.getHeight() + m_Map.getTileHeight()) &&
+					 ((y * m_Map.getTileHeight() + m_Map.getScrollY()) <= m_Window.getHeight() + m_Map.getTileHeight() - m_Map.getBottomEdge()) &&
 					 ((y * m_Map.getTileHeight() + m_Map.getScrollY()) >= 0 - m_Map.getTileHeight()) &&
 					 (!isSelectiveTileRenderingActive() || renderAllTiles() || m_Map.isMarkedForRendering(x, y)) )
 				{
@@ -129,7 +129,7 @@ void AITribe::draw()
 				oX=m_MO[i].getTileX() * m_Map.getTileWidth() + m_Map.getScrollX()+m_MO[i].getXOffset();
 				oY=m_MO[i].getTileY() * m_Map.getTileHeight() + m_Map.getScrollY() + m_MO[i].getYOffset();
 				// Only draw visible moving objects...
-				if(detectCollisionRectangle(oX, oY, oX+m_Map.getTileWidth(), oY+m_Map.getTileHeight(), 0, 0, m_Window.getWidth(), m_Window.getHeight()))
+				if(detectCollisionRectangle(oX, oY, oX+m_Map.getTileWidth(), oY+m_Map.getTileHeight(), 0, 0, m_Window.getWidth() - m_Map.getRightEdge(), m_Window.getHeight() - m_Map.getBottomEdge()))
 				{
 					if(m_MO[i].getOwner() >= 0 && m_MO[i].getOwner() < 9)
 					{
@@ -157,7 +157,7 @@ void AITribe::draw()
 		}
 
 		// Draw all stationary objects...
-		int sX,sY;
+		int sX, sY;
 		for(int i=0;i<getNumberOfSO();i++)
 		{
 			if(m_SO != NULL)
@@ -165,7 +165,7 @@ void AITribe::draw()
 				sX=m_SO[i].getTileX() * m_Map.getTileWidth() + m_Map.getScrollX();
 				sY=m_SO[i].getTileY() * m_Map.getTileHeight() + m_Map.getScrollY()-16;
 				// Only draw visible stationary objects...
-				if(detectCollisionRectangle(sX, sY, sX+m_Map.getTileWidth(), sY+m_Map.getTileHeight(), 0, 0, m_Window.getWidth(), m_Window.getHeight()))
+				if(detectCollisionRectangle(sX, sY, sX+m_Map.getTileWidth(), sY+m_Map.getTileHeight(), 0, 0, m_Window.getWidth() - m_Map.getRightEdge(), m_Window.getHeight() - m_Map.getBottomEdge()))
 				{
 					drawSprite(m_StationaryObject, getSurface(), 0, 0, sX, sY, m_Map.getTileWidth(), m_Map.getTileHeight()+16);
 				}
